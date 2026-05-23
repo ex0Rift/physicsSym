@@ -34,6 +34,11 @@ int main()
             cubes.push_back(latestCube);
         }
 
+        for (Cube& i : cubes)
+        {
+            i.Fall();
+        }
+
         //draw to the screen
         BeginDrawing();
 
