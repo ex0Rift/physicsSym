@@ -7,9 +7,12 @@ class Cube
 private:
     Vector2 position;
     float size;
+    Color color;
+    bool inAir;
 
 public:
-    Cube(Vector2 startPos, float initsize);
-    bool Draw();
+    Cube(Vector2 startPos, float initsize, Color inColor);
+    void Draw();
+    void Collide();
 
 };

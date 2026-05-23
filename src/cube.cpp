@@ -1,16 +1,21 @@
 #include "cube.hpp"
 #include "raylib.h"
+#include "constants.hpp"
 
-Cube::Cube(Vector2 startPos, float initsize)
+Cube::Cube(Vector2 startPos, float initsize, Color inColor)
 {
     position = startPos;
     size = initsize;
+    color = inColor;
+    inAir = true;
 }
 
-bool Cube::Draw()
+void Cube::Draw()
 {
-    DrawRectangle(position.x, position.y, size, size, BLACK);
+    DrawRectangle(position.x, position.y, size, size, color);
+}
 
-
-    return true;
+void Cube::Collide()
+{
+    if (position.y + size >= screenHeight) inAir = false;
 }

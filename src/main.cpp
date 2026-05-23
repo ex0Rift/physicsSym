@@ -7,32 +7,50 @@
 
 
 #include <iostream>
+#include <vector>
 #include "raylib.h"
 #include "cube.hpp"
+#include "constants.hpp"
 
+std::vector<Cube> cubes;
 
 int main()
 {   
     //initialise the window
-    InitWindow(1200,800,"Physics fun");
+    InitWindow(screenWidth,screenHeight,"Physics fun");
     SetTargetFPS(60);
-
-    Cube cube1 = Cube({12.0f,12.0f},50.0f);
-
 
     //mainloop
     while (!WindowShouldClose())
     {
+        //per frame logic
+
+        //get current mouse pos
+        Vector2 mousePos = GetMousePosition();
+
+        if (IsKeyPressed(KEY_ONE))
+        {
+            Cube latestCube = Cube({mousePos.x,mousePos.y},20.0f,BLUE);
+            cubes.push_back(latestCube);
+        }
+
         //draw to the screen
         BeginDrawing();
 
         ClearBackground(WHITE);
 
-        cube1.Draw();
+        if (!cubes.empty())
+        {
+            for (Cube i : cubes)
+            {
+                i.Draw();
+            }
+        }
 
         EndDrawing();
     }
     //close condition
 
+    CloseWindow();
     return 0;
 }
