@@ -1,5 +1,6 @@
 #include "cube.hpp"
 #include "raylib.h"
+#include "raymath.h"
 #include "constants.hpp"
 
 Cube::Cube(Vector2 startPos, float initsize, Color inColor)
@@ -43,8 +44,8 @@ void Cube::Place(Vector2 newPosition)
 void Cube::Fall()
 {
     if (inAir)velocity.y += 1.4f;
-    if (velocity.x >= 0.5f)velocity.x -= 1.4f;
-    else velocity.x = 0;
+    if (velocity.x > 0) velocity.x = Clamp(velocity.x - 1.5f, 0.0f, velocity.x);
+    else if (velocity.x < 0) velocity.x = Clamp(velocity.x + 1.3f, velocity.x, 0.0f);
     Move(velocity);
 }
 

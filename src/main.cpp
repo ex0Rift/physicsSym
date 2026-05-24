@@ -29,7 +29,7 @@ int main()
         //per frame logic
 
         //get current mouse pos
-        Vector2 oldMousePos = mousePos;
+        Vector2 mouseDelta = GetMouseDelta();
         Vector2 mousePos = GetMousePosition();
         //get if mouse is held 
         MouseHolding = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
@@ -43,7 +43,8 @@ int main()
             cubes.push_back(latestCube);
         }
 
-        if(!cubes.empty())if (IsKeyPressed(KEY_TWO))cubes[0].GiveVelocity({30,0});
+        //the first cube can be given acceleration by spamming num 2
+        if(!cubes.empty())if (IsKeyPressed(KEY_TWO))cubes[0].GiveVelocity({-30,0});
 
         //logic for per cube per frame
         for (Cube& i : cubes)
@@ -56,7 +57,8 @@ int main()
                 if //if statment stating if mouse is inside of current cube 
                 (
                     mousePos.x > iPos.x && mousePos.x < iPos.x+i.GetSize() &&
-                    mousePos.y > iPos.y && mousePos.y < iPos.y+i.GetSize()
+                    mousePos.y > iPos.y && mousePos.y < iPos.y+i.GetSize() ||
+                    heldCube == &i
                 )
                 {
                     //put the cube in the position of the mouse
@@ -73,7 +75,7 @@ int main()
         //if statment is true when cube is no longer held and will clear which cube is held after logic
         if (!MouseHolding && heldCube != nullptr)
         {
-
+            heldCube->GiveVelocity({mouseDelta.x,mouseDelta.y});
             heldCube = nullptr;
         }
 
