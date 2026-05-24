@@ -11,6 +11,10 @@ Cube::Cube(Vector2 startPos, float initsize, Color inColor)
     velocity = 2.0f;
 }
 
+Vector2 Cube::GetPosition(){return position;}
+
+float Cube::GetSize(){return size;}
+
 void Cube::Draw()
 {
     DrawRectangle(position.x, position.y, size, size, color);
@@ -22,6 +26,18 @@ void Cube::Move(Vector2 change)
     position.x += change.x;
     if (inAir || change.y < 0) position.y += change.y;
 
+}
+
+void Cube::Place(Vector2 newPosition)
+{   
+    if 
+    (
+        newPosition.x < screenWidth && newPosition.y < screenHeight &&
+        newPosition.x > 0 && newPosition.y > 0
+    )
+    {
+    position = newPosition;
+    }
 }
 
 void Cube::Fall()
@@ -38,4 +54,11 @@ void Cube::Collide()
         velocity = 0;
         position.y = screenHeight - size;
     }
+    else
+    {
+        inAir = true;
+    }
 }
+
+
+
