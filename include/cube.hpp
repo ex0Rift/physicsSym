@@ -9,7 +9,7 @@ private:
     float size;
     Color color;
     bool inAir;
-    float velocity;
+    Vector2 velocity;
 
 public:
     Cube(Vector2 startPos, float initsize, Color inColor);
@@ -20,6 +20,7 @@ public:
     void Place(Vector2 newPosition);
     void Fall();
     void Collide();
+    void GiveVelocity(Vector2 addedVelocity);
    
 
 };

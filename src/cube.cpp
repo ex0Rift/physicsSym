@@ -8,7 +8,7 @@ Cube::Cube(Vector2 startPos, float initsize, Color inColor)
     size = initsize;
     color = inColor;
     inAir = true;
-    velocity = 2.0f;
+    velocity = {0.0f,2.0f};
 }
 
 Vector2 Cube::GetPosition(){return position;}
@@ -42,8 +42,10 @@ void Cube::Place(Vector2 newPosition)
 
 void Cube::Fall()
 {
-    if (inAir)velocity += 1.4f;
-    Move({0,velocity});
+    if (inAir)velocity.y += 1.4f;
+    if (velocity.x >= 0.5f)velocity.x -= 1.4f;
+    else velocity.x = 0;
+    Move(velocity);
 }
 
 void Cube::Collide()
@@ -51,7 +53,7 @@ void Cube::Collide()
     if (position.y + size >= screenHeight)
     {
         inAir = false;
-        velocity = 0;
+        velocity.y = 0;
         position.y = screenHeight - size;
     }
     else
@@ -60,5 +62,8 @@ void Cube::Collide()
     }
 }
 
-
-
+void Cube::GiveVelocity(Vector2 addedVelocity)
+{
+    velocity.x += addedVelocity.x;
+    velocity.y += addedVelocity.y;
+}
