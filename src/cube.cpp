@@ -9,6 +9,7 @@ Cube::Cube(Vector2 startPos, float initsize, Color inColor)
     size = initsize;
     color = inColor;
     inAir = true;
+    blockColliding = false;
     onWall = {false,false};
     velocity = {0.0f,2.0f};
 }
@@ -16,6 +17,8 @@ Cube::Cube(Vector2 startPos, float initsize, Color inColor)
 Vector2 Cube::GetPosition(){return position;}
 
 float Cube::GetSize(){return size;}
+
+void Cube::SetBlockColliding(bool setter){blockColliding = setter;}
 
 void Cube::Draw()
 {
@@ -45,19 +48,19 @@ void Cube::Place(Vector2 newPosition)
 void Cube::Fall()
 {
     if (inAir)velocity.y += 1.4f;
-    if (velocity.x > 0) velocity.x = Clamp(velocity.x - 1.5f, 0.0f, velocity.x);
-    else if (velocity.x < 0) velocity.x = Clamp(velocity.x + 1.3f, velocity.x, 0.0f);
+    if (velocity.x > 0) velocity.x = Clamp(velocity.x - 1.4f, 0.0f, velocity.x);
+    else if (velocity.x < 0) velocity.x = Clamp(velocity.x + 1.4f, velocity.x, 0.0f);
     Move(velocity);
 }
 
 void Cube::Collide()
 {
     //collision for bottom edge of the display
-    if (position.y + size >= screenHeight)
+    if (position.y + size >= screenHeight || blockColliding)
     {
         inAir = false;
         velocity.y = 0;
-        position.y = screenHeight - size;
+        if (!blockColliding)position.y = screenHeight - size;
     }
     else
     {
@@ -92,6 +95,15 @@ void Cube::Collide()
         onWall.right = false;
     }
 
+}
+
+bool Cube::ObjectCollide(Vector2 comparison, float compasrisonSize)
+{
+    return CheckCollisionRecs
+    (
+        {position.x, position.y, size, size},
+        {comparison.x, comparison.y, compasrisonSize, compasrisonSize}
+    );
 }
 
 void Cube::GiveVelocity(Vector2 addedVelocity)

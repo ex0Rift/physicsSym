@@ -49,12 +49,17 @@ int main()
         //logic for per cube per frame
         for (Cube& i : cubes)
         {   
+            //reset cubes own colliding state to none at each new frame
+            i.SetBlockColliding(false);
+
             //if left click is being held logic continues
             if (MouseHolding)
             {   
                 //grabs the current cubes position for calculations
                 Vector2 iPos = i.GetPosition();
-                if //if statment stating if mouse is inside of current cube 
+                //if statment stating if mouse is inside of current cube 
+                //Also bypasses if cube was held last frame, to prevent dropping
+                if 
                 (
                     mousePos.x > iPos.x && mousePos.x < iPos.x+i.GetSize() &&
                     mousePos.y > iPos.y && mousePos.y < iPos.y+i.GetSize() ||
@@ -68,8 +73,28 @@ int main()
                     continue;
                 }
             }
+            //save coordinates before moving incase of collision
+            Vector2 iCubeOldPos = i.GetPosition();
             //Make cube conform to gravity
             i.Fall();
+
+            //check for collision with other cubes
+            for (Cube& j : cubes)
+            {
+                //skips if the cube is the same as current cube, if cubes is empty
+                if (&j != &i && !cubes.empty())
+                {
+                    Vector2 jPos = j.GetPosition();
+                    float jSize = j.GetSize();
+                    bool isColliding = i.ObjectCollide(jPos,jSize);
+
+                    if (isColliding)
+                    {
+                        i.Place(iCubeOldPos);
+                        i.SetBlockColliding(true);
+                    }
+                }
+            }
         }
         
         //if statment is true when cube is no longer held and will clear which cube is held after logic
