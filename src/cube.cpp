@@ -9,6 +9,7 @@ Cube::Cube(Vector2 startPos, float initsize, Color inColor)
     size = initsize;
     color = inColor;
     inAir = true;
+    onWall = {false,false};
     velocity = {0.0f,2.0f};
 }
 
@@ -51,6 +52,7 @@ void Cube::Fall()
 
 void Cube::Collide()
 {
+    //collision for bottom edge of the display
     if (position.y + size >= screenHeight)
     {
         inAir = false;
@@ -61,6 +63,35 @@ void Cube::Collide()
     {
         inAir = true;
     }
+
+    //collision for left edge of the screen
+    if (position.x <= 0)
+    {
+        onWall.left = true;
+        if (velocity.x < 0)
+        {
+            velocity.x =  -velocity.x;
+        }
+    }
+    else 
+    {
+        onWall.left = false;
+    }
+
+    //collision for right edge of the screen
+    if (position.x - size >= screenWidth)
+    {
+        onWall.right = true;
+        if (velocity.x > 0)
+        {
+            velocity.x = -velocity.x;
+        }
+    }
+    else
+    {
+        onWall.right = false;
+    }
+
 }
 
 void Cube::GiveVelocity(Vector2 addedVelocity)

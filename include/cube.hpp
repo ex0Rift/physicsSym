@@ -5,11 +5,19 @@
 class Cube
 {
 private:
+    struct objectBools {
+        bool left;
+        bool right;
+    };
+
     Vector2 position;
     float size;
     Color color;
     bool inAir;
     Vector2 velocity;
+    objectBools onWall;
+
+    
 
 public:
     Cube(Vector2 startPos, float initsize, Color inColor);
