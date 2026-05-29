@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include <random>
 #include "raylib.h"
 #include "cube.hpp"
 #include "constants.hpp"
@@ -16,6 +17,20 @@ std::vector<Cube> cubes;
 bool MouseHolding = false;
 Cube* heldCube = nullptr;
 Vector2 mousePos;
+
+std::vector<Color> colours = {
+    DARKGRAY, MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE,
+    DARKBROWN, GRAY, RED, GOLD, LIME, BLUE, VIOLET, BROWN,
+    LIGHTGRAY, PINK, YELLOW, GREEN, SKYBLUE, PURPLE, BEIGE
+
+};
+
+auto randomColour(const std::vector<Color>& colourArray)
+{
+    static std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<size_t> dist(0,colourArray.size() -1);
+    return colourArray[dist(rng)];
+}
 
 int main()
 {   
@@ -38,7 +53,7 @@ int main()
         if (IsKeyPressed(KEY_ONE))
         {
             //creates new cube
-            Cube latestCube = Cube({mousePos.x,mousePos.y},60.0f,BLUE);
+            Cube latestCube = Cube({mousePos.x,mousePos.y},60.0f,randomColour(colours));
             //places the cube inside the cube array
             cubes.push_back(latestCube);
         }
@@ -88,10 +103,14 @@ int main()
                     float jSize = j.GetSize();
                     bool isColliding = i.ObjectCollide(jPos,jSize);
 
+                    //collision triggered
                     if (isColliding)
+                    { 
+                        std::cout << "hit" << std::endl;
+                    }
+                    else
                     {
-                        i.Place(iCubeOldPos);
-                        i.SetBlockColliding(true);
+                        std::cout << "Not hit" << std::endl;
                     }
                 }
             }
