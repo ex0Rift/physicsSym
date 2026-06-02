@@ -111,3 +111,9 @@ void Cube::GiveVelocity(Vector2 addedVelocity)
     velocity.x += addedVelocity.x;
     velocity.y += addedVelocity.y;
 }
+
+
+void Cube::SetVelocity(Vector2 changedVelocity)
+{
+    velocity = changedVelocity;
+}

@@ -32,6 +32,5 @@ public:
     void Collide();
     bool ObjectCollide(Vector2 comparison, float comparisonSize);
     void GiveVelocity(Vector2 addedVelocity);
-   
-
+    void SetVelocity(Vector2 changedVelocity);
 };

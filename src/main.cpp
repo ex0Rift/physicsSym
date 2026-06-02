@@ -88,11 +88,6 @@ int main()
                     continue;
                 }
             }
-            //save coordinates before moving incase of collision
-            Vector2 iCubeOldPos = i.GetPosition();
-            //Make cube conform to gravity
-            i.Fall();
-
             //check for collision with other cubes
             for (Cube& j : cubes)
             {
@@ -102,18 +97,16 @@ int main()
                     Vector2 jPos = j.GetPosition();
                     float jSize = j.GetSize();
                     bool isColliding = i.ObjectCollide(jPos,jSize);
-
                     //collision triggered
                     if (isColliding)
                     { 
-                        std::cout << "hit" << std::endl;
-                    }
-                    else
-                    {
-                        std::cout << "Not hit" << std::endl;
+                        i.SetBlockColliding(true);
+                        i.SetVelocity({0,0});
                     }
                 }
             }
+            //Make cube conform to gravity
+            i.Fall();
         }
         
         //if statment is true when cube is no longer held and will clear which cube is held after logic
