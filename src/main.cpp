@@ -50,12 +50,18 @@ int main()
         MouseHolding = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 
         //checking if a jey is pressed
-        if (IsKeyPressed(KEY_ONE))
+        if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
         {
             //creates new cube
             Cube latestCube = Cube({mousePos.x,mousePos.y},60.0f,randomColour(colours));
             //places the cube inside the cube array
             cubes.push_back(latestCube);
+        }
+
+        //erase the screen
+        if (IsKeyPressed(KEY_BACKSPACE))
+        {
+            cubes.clear();
         }
 
         //the first cube can be given acceleration by spamming num 2
@@ -120,6 +126,7 @@ int main()
         //draw to the screen
         BeginDrawing();
         DrawFPS(0,0);
+        DrawText("right click for cube",0,40,20,BLUE);
 
         ClearBackground(WHITE);
         if (MouseHolding)
